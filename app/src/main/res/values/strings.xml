@@ -5,7 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_select_item">Select Foods and Drinks</string>
     <string name="select_item_button">Add Selected Items</string>
-    <string name="todays_intake_title">Today\'s Food and Drink Intake</string>
-
+    <string name="title_activity_item_list">Today\'s Food and Drink Intake</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_items_history">Daily Food and Drink History</string>
+    <string name="title_activity_add_item_to_list">Add Item To List</string>
+    <string name="title_activity_add_weight">Add New Weight</string>
+    <string name="title_activity_weight_history">Weight History</string>
+    <string name="title_activity_add_goal">Add a New Goal</string>
+    <string name="title_activity_goals_list">Goals List</string>
 </resources>

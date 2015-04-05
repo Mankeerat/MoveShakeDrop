@@ -2,16 +2,13 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/hh_big_logo"
-                tools:context=".MainActivity">
+                tools:context=".MainActivity"
+                android:focusableInTouchMode="false">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go To Food Selection"
-        android:id="@+id/button2"
-        android:layout_marginTop="51dp"
-        android:onClick="goToFoodSelection"/>
+    <ImageView
+        android:id="@+id/hh_big_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
+        android:src="@drawable/hh_big_logo"/>
 </RelativeLayout>

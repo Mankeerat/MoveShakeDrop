@@ -1,38 +1,24 @@
 package com.shianne.hellohealthy;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.os.Handler;
 
-
-public class MainActivity extends Activity {
-
-
+public class GoalsList extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        int secondsDelayed = 10;
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                startActivity(new Intent(MainActivity.this, SelectItem.class));
-                finish();
-            }
-        }, secondsDelayed * 1000);
-
+        setContentView(R.layout.activity_goals_list);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_goals_list, menu);
         return true;
     }
 

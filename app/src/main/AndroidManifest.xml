@@ -28,6 +28,42 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shianne.hellohealthy.SelectItem" />
         </activity>
+        <activity
+            android:name=".ItemsHistory"
+            android:label="@string/title_activity_items_history"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shianne.hellohealthy.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AddItemToList"
+            android:label="@string/title_activity_add_item_to_list"
+            android:parentActivityName=".SelectItem" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shianne.hellohealthy.SelectItem" />
+        </activity>
+        <activity
+            android:name=".AddWeight"
+            android:label="@string/title_activity_add_weight" >
+        </activity>
+        <activity
+            android:name=".WeightHistory"
+            android:label="@string/title_activity_weight_history"
+            android:parentActivityName=".AddWeight" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shianne.hellohealthy.AddWeight" />
+        </activity>
+        <activity
+            android:name=".AddGoal"
+            android:label="@string/title_activity_add_goal" >
+        </activity>
+        <activity
+            android:name=".GoalsList"
+            android:label="@string/title_activity_goals_list" >
+        </activity>
     </application>
 
 </manifest>
