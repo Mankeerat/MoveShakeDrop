@@ -46,7 +46,8 @@
         </activity>
         <activity
             android:name=".AddWeight"
-            android:label="@string/title_activity_add_weight" >
+            android:label="@string/title_activity_add_weight"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".WeightHistory"
@@ -58,11 +59,16 @@
         </activity>
         <activity
             android:name=".AddGoal"
-            android:label="@string/title_activity_add_goal" >
+            android:label="@string/title_activity_add_goal"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".GoalsList"
             android:label="@string/title_activity_goals_list" >
+        </activity>
+        <activity
+            android:name=".Tester"
+            android:label="@string/title_activity_tester" >
         </activity>
     </application>
 

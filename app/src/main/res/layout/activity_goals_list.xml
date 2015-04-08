@@ -9,8 +9,16 @@
                 tools:context="com.shianne.hellohealthy.GoalsList">
 
     <TextView
-        android:text="@string/hello_world"
+        android:text="@string/title_activity_goals_list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:id="@+id/title_activity_goals_list"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/goalsList"
+        android:layout_below="@+id/title_activity_goals_list"/>
 
 </RelativeLayout>

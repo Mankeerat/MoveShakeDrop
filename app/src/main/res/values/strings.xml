@@ -1,16 +1,44 @@
 <resources>
     <string name="app_name">HelloHealthy</string>
-
-    <string name="select_item">Select Your Foods and Drinks:</string>
     <string name="action_settings">Settings</string>
+
+    <!--Select Item-->
+    <string name="select_item">Select Your Foods and Drinks:</string>
     <string name="title_activity_select_item">Select Foods and Drinks</string>
     <string name="select_item_button">Add Selected Items</string>
+
+    <!--Item List-->
     <string name="title_activity_item_list">Today\'s Food and Drink Intake</string>
-    <string name="hello_world">Hello world!</string>
+
+    <!--Item History-->
     <string name="title_activity_items_history">Daily Food and Drink History</string>
+
+    <!--Add Item To List-->
     <string name="title_activity_add_item_to_list">Add Item To List</string>
+    <string name="addItemDesc">This will add an item (food or drink) to the list to
+        select from.</string>
+    <string name="addItemButtonText">Add New Item</string>
+
+    <!--Add Weight-->
     <string name="title_activity_add_weight">Add New Weight</string>
+    <string name="weight">Weight(in lbs):</string>
+    <string name="date">Date:</string>
+    <string name="addWeightButtonText">Add New Weight</string>
+
+    <!--Weight History-->
     <string name="title_activity_weight_history">Weight History</string>
+
+    <!--Add Goal-->
     <string name="title_activity_add_goal">Add a New Goal</string>
+    <string name="goalDescription">Goal Description:</string>
+    <string name="completionDate">Completion Date:</string>
+    <string name="addGoalButtonText">Add New Goal</string>
+
+    <!--Goal List-->
     <string name="title_activity_goals_list">Goals List</string>
+
+
+
+    <string name="title_activity_tester">Tester</string>
+    <string name="hello_world">Hello world!</string>
 </resources>

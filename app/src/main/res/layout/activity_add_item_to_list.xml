@@ -9,8 +9,40 @@
                 tools:context="com.shianne.hellohealthy.AddItemToList">
 
     <TextView
-        android:text="@string/hello_world"
+        android:text="@string/title_activity_add_item_to_list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/title_activity_add_item_to_list"
+        android:textSize="25sp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addedItem"
+        android:layout_marginTop="116dp"
+        android:inputType="text"
+        android:layout_below="@+id/title_activity_add_item_to_list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addItemButtonText"
+        android:id="@+id/addItemButton"
+        android:layout_below="@+id/addedItem"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:onClick="onClickAddItem"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/addItemDesc"
+        android:id="@+id/addItemDesc"
+        android:layout_below="@+id/title_activity_add_item_to_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"/>
 
 </RelativeLayout>

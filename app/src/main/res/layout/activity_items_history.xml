@@ -9,8 +9,17 @@
                 tools:context="com.shianne.hellohealthy.ItemsHistory">
 
     <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/dailyItemHistory"
+        android:text="@string/title_activity_items_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"/>
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableListView"
+        android:layout_below="@+id/dailyItemHistory"
+        />
 
 </RelativeLayout>

@@ -9,8 +9,16 @@
                 tools:context="com.shianne.hellohealthy.WeightHistory">
 
     <TextView
-        android:text="@string/hello_world"
+        android:text="@string/title_activity_weight_history"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:id="@+id/title_activity_weight_history"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/weightList"
+        android:layout_below="@+id/title_activity_weight_history"/>
 
 </RelativeLayout>

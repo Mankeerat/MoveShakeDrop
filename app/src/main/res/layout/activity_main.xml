@@ -3,7 +3,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".MainActivity"
-                android:focusableInTouchMode="false">
+                android:focusableInTouchMode="false"
+                android:background="#ffffffff">
 
     <ImageView
         android:id="@+id/hh_big_logo"

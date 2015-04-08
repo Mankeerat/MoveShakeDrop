@@ -16,7 +16,7 @@
         android:id="@+id/title_activity_item_list"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/itemsList"
         android:layout_below="@+id/title_activity_item_list"/>

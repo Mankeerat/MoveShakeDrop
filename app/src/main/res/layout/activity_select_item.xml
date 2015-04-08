@@ -4,12 +4,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 tools:context="com.shianne.hellohealthy.SelectItem">
-
+<!--MAKE IT SCROLLABLE!!!-->
     <TextView
         android:text="@string/select_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/selectItemText"
         android:textSize="25sp"/>
 
     <ListView
@@ -21,7 +21,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
+        android:id="@+id/selectItemButton"
         android:onClick="onClickToAddItems"
         android:background="#c8171717"
         android:textColor="@android:color/background_light"
