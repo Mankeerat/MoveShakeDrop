@@ -13,6 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:id="@+id/title_activity_add_weight"/>
 
     <TextView
@@ -30,11 +33,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:ems="10"
         android:id="@+id/weightVal"
-        android:layout_below="@+id/weightTitle"
-        android:layout_alignRight="@+id/datePicker"
-        android:layout_alignEnd="@+id/datePicker"/>
+        android:ems="6"
+        android:singleLine="true"
+        android:layout_alignTop="@+id/weightTitle"
+        android:layout_alignRight="@+id/weightTitle"
+        android:layout_alignEnd="@+id/weightTitle"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -49,12 +53,12 @@
     <DatePicker
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
+        android:id="@+id/datePickerAddWeight"
         android:datePickerMode="spinner"
         android:calendarViewShown="false"
         android:layout_below="@+id/dateTitle"
-        android:layout_alignLeft="@+id/datePicker"
-        android:layout_alignStart="@+id/datePicker"/>
+        android:layout_alignLeft="@+id/datePickerAddWeight"
+        android:layout_alignStart="@+id/datePickerAddWeight"/>
 
     <Button
         android:layout_width="match_parent"
@@ -63,6 +67,8 @@
         android:id="@+id/addWeightButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="#c8171717"
+        android:textColor="@android:color/background_light"
         android:onClick="onClickAddWeight"/>
 
 </RelativeLayout>

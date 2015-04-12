@@ -30,10 +30,12 @@
         android:layout_height="wrap_content"
         android:text="@string/addItemButtonText"
         android:id="@+id/addItemButton"
-        android:layout_below="@+id/addedItem"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:onClick="onClickAddItem"/>
+        android:onClick="onClickAddItem"
+        android:background="#c8171717"
+        android:textColor="@android:color/background_light"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:layout_width="wrap_content"
