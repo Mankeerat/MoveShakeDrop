@@ -1,19 +1,51 @@
 package com.shianne.hellohealthy;
 
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+
+import java.sql.SQLException;
 
 
 public class WeightHistory extends ActionBarActivity {
+
+    DBAdapter db = new DBAdapter(this);
+    Cursor c;
+    SimpleCursorAdapter SCAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight_history);
+
+        try{
+            db.openDatabase();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        // Retrieve all the weight values from the database
+        c = db.getAllWeight();
+
+        // Display the weight values
+        displayAllWeight();
+
+        db.closeDatabase();
     }
 
+    private void displayAllWeight(){
+
+        ListView listView = (ListView) findViewById(R.id.weightList);
+        String[] from = new String[]{db.KEY_WEIGHT, db.KEY_DATEWEIGHED};
+        int[] to = new int[]{R.id.weight, R.id.dateWeighed};
+        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_weight_history_single_row, c, from, to, 0);
+        // Inserts the single rows into the ListView section of Weight History
+        listView.setAdapter(SCAdapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

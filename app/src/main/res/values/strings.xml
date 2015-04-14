@@ -27,6 +27,8 @@
 
     <!--Weight History-->
     <string name="title_activity_weight_history">Weight History</string>
+    <string name="weightHeading">Weight</string>
+    <string name="dateWeighedHeading">Date</string>
 
     <!--Add Goal-->
     <string name="title_activity_add_goal">Add a New Goal</string>

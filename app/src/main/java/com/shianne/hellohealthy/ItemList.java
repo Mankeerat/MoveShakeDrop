@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+// When user selects foods/drinks and submits, this page displays todays intake
 public class ItemList extends ActionBarActivity {
 
     @Override

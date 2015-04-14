@@ -12,23 +12,17 @@ import android.widget.SimpleCursorAdapter;
 
 import java.sql.SQLException;
 
-
+// NOTE: ADD CHECKBOX FOR ISCOMPLETED SECTION
 public class GoalsList extends ActionBarActivity {
-/*
 
-    private SimpleCursorAdapter SCAdapter;
-    //CustomCursorAdapter CCAdapter;
-    private Cursor c;
-    private ListView listView;
-    private DBAdapter db;
-*/
+    DBAdapter db = new DBAdapter(this);
+    Cursor c;
+    SimpleCursorAdapter SCAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goals_list);
-/*
-        db = new DBAdapter(this);
 
         try{
             db.openDatabase();
@@ -36,44 +30,25 @@ public class GoalsList extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        //if(db.getAllGoals().getCount() == 0)
-        //db.insertTesterGoals();
-
-        displayGoals();
-
-        db.closeDatabase();*/
-    }
-/*
-
-    private void displayGoals(){
-        Log.i("DBAdapter", "in displayGoals");
+        // Retrieve all the goals from the database
         c = db.getAllGoals();
-        Log.i("DBAdapter", "before views in displaygoals");
-*/
-/*
-            listView = (ListView) findViewById(R.id.list_data);
-            CCAdapter = new CustomCursorAdapter(this, c);
-            listView.setAdapter(CCAdapter);*//*
 
+        // Display the goals
+        displayAllGoals();
 
-            String[] cols = new String[]{
-                    db.KEY_GOALDESC,
-                    db.KEY_DATECOMPLETED
-            };
-
-            int[] to = new int[]{
-                    R.id.goalDesc,
-                    R.id.dateCompleted
-            };
-
-            SCAdapter = new SimpleCursorAdapter(
-                    this, R.layout.activity_goal_list_single_row, c, cols, to, 0
-            );
-            listView = (ListView) findViewById(R.id.list_data);
-            listView.setAdapter(SCAdapter);
-        Log.i("DBAdapter", "after views");
+        db.closeDatabase();
     }
-*/
+
+    private void displayAllGoals(){
+
+        ListView listView = (ListView) findViewById(R.id.list_data);
+        String[] from = new String[]{db.KEY_GOALDESC, db.KEY_DATECOMPLETED}; // From database
+        int[] to = new int[]{R.id.goalDesc, R.id.dateCompleted}; // To the view
+        SCAdapter = new SimpleCursorAdapter(this,R.layout.activity_goal_list_single_row, c, from,
+                to, 0);
+        // Inserts the single rows into the ListView section of Goals List
+        listView.setAdapter(SCAdapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

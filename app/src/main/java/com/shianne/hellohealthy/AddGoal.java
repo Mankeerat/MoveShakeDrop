@@ -10,13 +10,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 
 public class AddGoal extends ActionBarActivity {
-/*
 
     DBAdapter db = new DBAdapter(this);
-*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +32,10 @@ public class AddGoal extends ActionBarActivity {
 
     public void onClickAddGoal(View view){
 
-      /*  EditText goalDescET = (EditText) findViewById(R.id.goalDesc);
+        EditText goalDescET = (EditText) findViewById(R.id.goalDesc);
         String goalDesc = goalDescET.getText().toString();
-        DatePicker datePicker = (DatePicker) findViewById(R.id.dateCompleted);
-        String day = String.valueOf(datePicker.getDayOfMonth());
-        String month = String.valueOf(datePicker.getMonth() + 1);
-        String year = String.valueOf(datePicker.getYear());
-
-        String dateCompleted = year + "-" + month + "-" + day;
+        DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerAddGoal);
+        String dateCompleted = db.getDateTime(datePicker);
 
         try {
             db.openDatabase();
@@ -48,11 +46,11 @@ public class AddGoal extends ActionBarActivity {
         // Inserts new goal into table
         db.createGoal(goalDesc, dateCompleted);
 
+        // Displays all the goals including the new one in the Goals List
         startActivity(new Intent(this, GoalsList.class));
-*/
+
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

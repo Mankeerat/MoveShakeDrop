@@ -1,12 +1,19 @@
 package com.shianne.hellohealthy;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+
+import java.sql.SQLException;
 
 public class AddWeight extends ActionBarActivity {
+
+    DBAdapter db = new DBAdapter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +23,22 @@ public class AddWeight extends ActionBarActivity {
 
     public void onClickAddWeight(View view){
 
+        EditText weightET = (EditText) findViewById(R.id.weightVal);
+        String weight = weightET.getText().toString();
+        DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerAddWeight);
+        String dateWeighed = db.getDateTime(datePicker);
+
+        try{
+            db.openDatabase();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        // Inserts new weight into table
+        db.createWeight(weight, dateWeighed);
+
+        // Displays all the weight values including newest one to Weight History
+        startActivity(new Intent(this, WeightHistory.class));
     }
 
 

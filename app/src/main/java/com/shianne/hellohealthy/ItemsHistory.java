@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+// Main page of the food intake part
 public class ItemsHistory extends ActionBarActivity {
 
     @Override

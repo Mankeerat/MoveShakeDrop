@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import java.sql.SQLException;
@@ -123,7 +124,6 @@ public class DBAdapter{
                 db.execSQL(CREATE_TABLE_ENTRY);
                 Log.i(TAG, "creating item entry tables");
                 db.execSQL(CREATE_TABLE_ITEM_ENTRY);
-                insertTesterGoals();
                 Log.i(TAG, "After creating tables");
             }catch(Exception e){
                 e.printStackTrace();
@@ -155,7 +155,6 @@ public class DBAdapter{
 
     // Close Database
     public void closeDatabase(){
-        if(db != null && db.isOpen())
             DBHelper.close();
     }
 
@@ -166,22 +165,18 @@ public class DBAdapter{
     public long createGoal(String goalDesc, String dateCompleted){
 
         ContentValues values = new ContentValues();
-Log.i(TAG, "in createGoal before put()");
+
         values.put(KEY_GOALDESC, goalDesc);
         values.put(KEY_DATECOMPLETED, dateCompleted);
-        values.put(KEY_CREATED_AT, getDateTime());
-        Log.i(TAG, "in createGoal after put()");
-        Toast.makeText(context, "creating..." + goalDesc + " \n" + dateCompleted + " \n"
-                        + getDateTime(),
-                Toast.LENGTH_LONG).show();
-
+        values.put(KEY_CREATED_AT, getCurrentDateTime());
         return db.insert(TABLE_GOAL, null, values);
     }
 
     // Retrieve
     public Cursor getAllGoals(){
+
         return db.query(TABLE_GOAL, new String[]{KEY_ID, KEY_GOALDESC, KEY_DATECOMPLETED,
-                KEY_CREATED_AT}, null, null, null, null, null);
+                KEY_CREATED_AT}, null, null, null, null, KEY_DATECOMPLETED);
     }
 
     // -- WEIGHT
@@ -198,7 +193,8 @@ Log.i(TAG, "in createGoal before put()");
 
     // Retrieve
     public Cursor getAllWeight(){
-        return db.query(TABLE_WEIGHT, new String[]{KEY_ID, KEY_WEIGHT, KEY_DATEWEIGHED}, null, null, null, null, null);
+
+        return db.query(TABLE_WEIGHT, new String[]{KEY_ID, KEY_WEIGHT, KEY_DATEWEIGHED}, null, null, null, null, KEY_DATEWEIGHED);
     }
 
     // -- ITEM
@@ -260,7 +256,7 @@ Log.i(TAG, "in createGoal before put()");
 
         values.put(KEY_ENTRY_ID, entryId);
         values.put(KEY_ITEM_ID, itemId);
-        values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT, getCurrentDateTime());
 
         return db.insert(TABLE_ITEM_ENTRY, null, values);
     }
@@ -271,19 +267,26 @@ Log.i(TAG, "in createGoal before put()");
                 KEY_CREATED_AT}, null, null, null, null, null);
     }*/
 
-    // Date
-    private String getDateTime(){
+    // Gets today's date
+    private String getCurrentDateTime(){
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
+                "yyyy-MMM-dd HH:mm:ss", Locale.getDefault()
         );
         Date date = new Date();
         return dateFormat.format(date);
     }
 
-    private void insertTesterGoals(){
-        createGoal("Lose 10 pounds","2015-05-01");
-        createGoal("No cake for a week","2015-05-02");
-        createGoal("Exercise for 20 minutes","2015-06-04");
+    // Takes the datepicker value and returns it as a string
+    public String getDateTime(DatePicker datePicker){
+
+        String day = String.valueOf(datePicker.getDayOfMonth());
+        int m = datePicker.getMonth() + 1;
+        final String[] MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        String month = MONTHS[m];
+        String year = String.valueOf(datePicker.getYear());
+
+
+        return year + "-" + month + "-" + day;
     }
 
 }
