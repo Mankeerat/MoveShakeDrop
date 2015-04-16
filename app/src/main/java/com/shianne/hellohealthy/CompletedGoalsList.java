@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -48,7 +47,7 @@ public class CompletedGoalsList extends ActionBarActivity {
         final SimpleCursorAdapter.ViewBinder viewBinder = new SimpleCursorAdapter.ViewBinder(){
             @Override
             public boolean setViewValue( final View view, final Cursor cursor, final int colIndex){
-                final int checkedIndex = cursor.getColumnIndex(db.KEY_ISCOMPLETED);
+
                 return false;
             }
         };
@@ -62,8 +61,7 @@ public class CompletedGoalsList extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("DBAdapter", "before Completed onitemclick");
                 isCompleted = 0;
-                View v = listView.getChildAt(position);
-                CheckedTextView ctv = (CheckedTextView) v.findViewById(R.id.goalDescCG);
+                
                 db.updateGoal(id, isCompleted);
                 Log.i("DBAdapter", "before Completed recreate()");
                 recreate();

@@ -1,13 +1,17 @@
 package com.shianne.hellohealthy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import java.sql.SQLException;
 
@@ -21,8 +25,22 @@ public class AddGoal extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
 
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.goalLayout);
+
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
     }
 
+    protected void hideKeyboard(View view){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context
+                .INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
     public void onClickAddGoal(View view){
 
         EditText goalDescET = (EditText) findViewById(R.id.goalDescEdit);
