@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HelloHealthy</string>
+    <string name="app_name">Hello Healthy!</string>
     <string name="action_settings">Settings</string>
 
     <!--Select Item-->
@@ -38,7 +38,13 @@
 
     <!--Goal List-->
     <string name="title_activity_goals_list">Goals List</string>
+    <string name="moveToCompletedButton">Move to Completed</string>
+    <string name="goalListInstructions">Click on the goal when it is completed.</string>
 
+    <!-- Completed Goals List-->
+    <string name="title_activity_completed_goals_list">Completed Goals List</string>
+    <string name="moveToIncompletedButton">Move back to Goals List</string>
+    <string name="completedGoalInstructions">Click on goal if it NOT completed.</string>
 
 
     <string name="title_activity_tester">Tester</string>

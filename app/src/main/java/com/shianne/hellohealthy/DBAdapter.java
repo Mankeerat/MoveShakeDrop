@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -42,6 +41,7 @@ public class DBAdapter{
     // Goal Column Names
     static final String KEY_GOALDESC = "goalDesc";
     static final String KEY_DATECOMPLETED = "dateCompleted";
+    static final String KEY_ISCOMPLETED = "isCompleted";
 
     // Weight Column Names
     static final String KEY_WEIGHT = "weight";
@@ -62,28 +62,29 @@ public class DBAdapter{
     static final String CREATE_TABLE_GOAL =
             "CREATE TABLE " + TABLE_GOAL + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_GOALDESC + " TEXT,"
+            + KEY_GOALDESC + " TEXT NOT NULL,"
             + KEY_DATECOMPLETED + " DATETIME,"
+            + KEY_ISCOMPLETED + " INTEGER NOT NULL,"
             + KEY_CREATED_AT + " DATETIME" + ")";
 
     // Weight Create Statement
     static final String CREATE_TABLE_WEIGHT =
             "CREATE TABLE " + TABLE_WEIGHT + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_WEIGHT + " TEXT,"
+            + KEY_WEIGHT + " TEXT NOT NULL,"
             + KEY_DATEWEIGHED + " DATETIME" + ")";
 
     // Item Create Statement
     static final String CREATE_TABLE_ITEM =
             "CREATE TABLE " + TABLE_ITEM + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_ITEM + " TEXT" + ")";
+            + KEY_ITEM + " TEXT NOT NULL" + ")";
 
     // Entry Create Statement
     static final String CREATE_TABLE_ENTRY =
             "CREATE TABLE " + TABLE_ENTRY + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_ENTRY + " TEXT" + ")";
+            + KEY_ENTRY + " TEXT NOT NULL" + ")";
 
     // Item_Entry Create Statement
     static final String CREATE_TABLE_ITEM_ENTRY =
@@ -112,7 +113,8 @@ public class DBAdapter{
         public void onCreate(SQLiteDatabase db){
 
             try{
-                openDatabase();
+                Log.i("DBAdapter", "dbadapter db open");
+                if(!db.isOpen())openDatabase();
                 // Create tables
                 Log.i(TAG, "Before creating tables");
                 db.execSQL(CREATE_TABLE_GOAL);
@@ -168,15 +170,40 @@ public class DBAdapter{
 
         values.put(KEY_GOALDESC, goalDesc);
         values.put(KEY_DATECOMPLETED, dateCompleted);
+        values.put(KEY_ISCOMPLETED, 0);
         values.put(KEY_CREATED_AT, getCurrentDateTime());
         return db.insert(TABLE_GOAL, null, values);
     }
 
-    // Retrieve
+    // Retrieve ALL Goals
     public Cursor getAllGoals(){
 
         return db.query(TABLE_GOAL, new String[]{KEY_ID, KEY_GOALDESC, KEY_DATECOMPLETED,
-                KEY_CREATED_AT}, null, null, null, null, KEY_DATECOMPLETED);
+                KEY_ISCOMPLETED, KEY_CREATED_AT}, null, null, null, null, KEY_DATECOMPLETED);
+    }
+
+    // Retrieve All COMPLETED Goals
+    public Cursor getAllCompletedGoals(){
+
+        return db.query(TABLE_GOAL, new String[]{KEY_ID, KEY_GOALDESC, KEY_DATECOMPLETED,
+                KEY_ISCOMPLETED, KEY_CREATED_AT}, KEY_ISCOMPLETED + " = " + 1, null, null, null, KEY_DATECOMPLETED);
+    }
+
+    // Retrieve All INCOMPLETED Goals
+    public Cursor getAllIncompletedGoals(){
+
+        return db.query(TABLE_GOAL, new String[]{KEY_ID, KEY_GOALDESC, KEY_DATECOMPLETED,
+                KEY_ISCOMPLETED, KEY_CREATED_AT}, KEY_ISCOMPLETED + " = " + 0, null, null, null,
+                KEY_DATECOMPLETED);
+    }
+
+    // Update Completed Goals
+    public boolean updateGoal(long rowID, int isCompleted){
+
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_ISCOMPLETED, isCompleted);
+        return db.update(TABLE_GOAL, values, KEY_ID + " = " + rowID, null) > 0;
     }
 
     // -- WEIGHT
@@ -270,7 +297,7 @@ public class DBAdapter{
     // Gets today's date
     private String getCurrentDateTime(){
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MMM-dd HH:mm:ss", Locale.getDefault()
+                "yyyy-MMM-dd", Locale.getDefault()
         );
         Date date = new Date();
         return dateFormat.format(date);

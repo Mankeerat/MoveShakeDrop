@@ -10,10 +10,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
 
 public class AddGoal extends ActionBarActivity {
@@ -25,14 +21,11 @@ public class AddGoal extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
 
-
-
-
     }
 
     public void onClickAddGoal(View view){
 
-        EditText goalDescET = (EditText) findViewById(R.id.goalDesc);
+        EditText goalDescET = (EditText) findViewById(R.id.goalDescEdit);
         String goalDesc = goalDescET.getText().toString();
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerAddGoal);
         String dateCompleted = db.getDateTime(datePicker);

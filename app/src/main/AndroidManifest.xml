@@ -47,7 +47,7 @@
         <activity
             android:name=".AddWeight"
             android:label="@string/title_activity_add_weight"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".WeightHistory"
@@ -60,7 +60,7 @@
         <activity
             android:name=".AddGoal"
             android:label="@string/title_activity_add_goal"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".GoalsList"
@@ -69,6 +69,14 @@
         <activity
             android:name=".Tester"
             android:label="@string/title_activity_tester" >
+        </activity>
+        <activity
+            android:name=".CompletedGoalsList"
+            android:label="@string/title_activity_completed_goals_list"
+            android:parentActivityName=".GoalsList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shianne.hellohealthy.GoalsList" />
         </activity>
     </application>
 

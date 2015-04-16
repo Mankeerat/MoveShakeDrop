@@ -1,6 +1,5 @@
 package com.shianne.hellohealthy;
 
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
@@ -16,75 +15,72 @@ import android.widget.SimpleCursorAdapter;
 
 import java.sql.SQLException;
 
-public class GoalsList extends ActionBarActivity {
+
+public class CompletedGoalsList extends ActionBarActivity {
 
     DBAdapter db = new DBAdapter(this);
     Cursor c;
     SimpleCursorAdapter SCAdapter;
-    int isCompleted = 0;
+    int isCompleted = 1;
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goals_list);
+        setContentView(R.layout.activity_completed_goals_list);
 
         try{
-            Log.i("DBAdapter", "Goal list open db");
-             db.openDatabase();
+            Log.i("DBAdapter", "Completed Goal list open db");
+            db.openDatabase();
         }catch(SQLException e){
             e.printStackTrace();
         }
-        Log.i("DBAdapter", "before retrieve goals");
+        Log.i("DBAdapter", "before retrieve Completed goals");
         // Retrieve all the goals from the database
-        c = db.getAllIncompletedGoals();
-        Log.i("DBAdapter", "before listview");
+        c = db.getAllCompletedGoals();
+        Log.i("DBAdapter", "before Completed listview");
         // Display the goals
-        listView = (ListView) findViewById(R.id.list_data);
+        listView = (ListView) findViewById(R.id.completed_goals_list);
         String[] from = new String[]{db.KEY_GOALDESC, db.KEY_DATECOMPLETED}; // From database
-        int[] to = new int[]{R.id.goalDesc, R.id.dateCompleted}; // To the view
-        SCAdapter = new SimpleCursorAdapter(this,R.layout.activity_goal_list_single_row, c, from,
-                to, 0);
+        int[] to = new int[]{R.id.goalDescCG, R.id.dateCompletedCG}; // To the view
+        SCAdapter = new SimpleCursorAdapter(this,R.layout.activity_completed_goals_list_single_row, c, from, to, 0);
         Log.i("DBAdapter", "before viewBinder");
         final SimpleCursorAdapter.ViewBinder viewBinder = new SimpleCursorAdapter.ViewBinder(){
             @Override
-        public boolean setViewValue( final View view, final Cursor cursor, final int colIndex){
+            public boolean setViewValue( final View view, final Cursor cursor, final int colIndex){
                 final int checkedIndex = cursor.getColumnIndex(db.KEY_ISCOMPLETED);
                 return false;
             }
         };
         SCAdapter.setViewBinder(viewBinder);
-        Log.i("DBAdapter", "end viewBinder section");
         // Inserts the single rows into the ListView section of Goals List
         listView.setAdapter(SCAdapter);
-
 
         //listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("DBAdapter", "before onitemclick");
-                isCompleted = 1;
+                Log.i("DBAdapter", "before Completed onitemclick");
+                isCompleted = 0;
                 View v = listView.getChildAt(position);
-                CheckedTextView ctv = (CheckedTextView) v.findViewById(R.id.goalDesc);
+                CheckedTextView ctv = (CheckedTextView) v.findViewById(R.id.goalDescCG);
                 db.updateGoal(id, isCompleted);
-                Log.i("DBAdapter", "before recreate()");
+                Log.i("DBAdapter", "before Completed recreate()");
                 recreate();
             }
         });
-
     }
 
-    public void onClickToMoveToCompleted(View view){
+    public void onClickToMoveToIncompleted(View view){
 
-        Log.i("DBAdapter", "before completed goals list activity");
-        startActivity(new Intent(this, CompletedGoalsList.class));
+        Log.i("DBAdapter", "before incompleted goals list activity");
+        startActivity(new Intent(this, GoalsList.class));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_goals_list, menu);
+        getMenuInflater().inflate(R.menu.menu_completed_goals_list, menu);
         return true;
     }
 

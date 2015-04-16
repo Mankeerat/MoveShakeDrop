@@ -6,32 +6,32 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="com.shianne.hellohealthy.GoalsList">
+                tools:context="com.shianne.hellohealthy.CompletedGoalsList">
 
     <TextView
-        android:text="@string/title_activity_goals_list"
+        android:text="@string/title_activity_completed_goals_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:id="@+id/title_activity_goals_list"/>
+        android:id="@+id/title_activity_completed_goals_list"/>
 
     <ListView
-        android:id="@+id/list_data"
+        android:id="@+id/completed_goals_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="0.1sp"
         android:divider="#ff595959"
-        android:layout_above="@+id/moveToCompletedButton"
-        android:layout_below="@+id/goalListInstructions"/>
+        android:layout_above="@+id/moveToIncompletedButton"
+        android:layout_below="@+id/completedGoalInstructions"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/moveToCompletedButton"
-        android:onClick="onClickToMoveToCompleted"
+        android:id="@+id/moveToIncompletedButton"
+        android:onClick="onClickToMoveToIncompleted"
         android:background="#c8171717"
         android:textColor="@android:color/background_light"
-        android:text="@string/moveToCompletedButton"
+        android:text="@string/moveToIncompletedButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
@@ -40,11 +40,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/goalListInstructions"
-        android:id="@+id/goalListInstructions"
-        android:layout_below="@+id/title_activity_goals_list"
+        android:text="@string/completedGoalInstructions"
+        android:id="@+id/completedGoalInstructions"
+        android:layout_below="@+id/title_activity_completed_goals_list"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
