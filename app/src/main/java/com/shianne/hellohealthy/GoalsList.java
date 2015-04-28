@@ -68,19 +68,14 @@ public class GoalsList extends ActionBarActivity {
 
                 db.updateGoal(id, isCompleted);
                 Log.i("DBAdapter", "before recreate()");
-                recreate();
+                //recreate();
+                startActivity(new Intent(getApplicationContext(), CompletedGoalsList.class));
                 Toast.makeText(getBaseContext(), "Congratulations!! You completed a goal!",
                         Toast.LENGTH_LONG).show();
                 //recreate or after click move to completed goals page
             }
         });
 
-    }
-
-    public void onClickToMoveToCompleted(View view){
-
-        Log.i("DBAdapter", "before completed goals list activity");
-        startActivity(new Intent(this, CompletedGoalsList.class));
     }
 
     @Override

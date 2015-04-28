@@ -63,16 +63,10 @@ public class CompletedGoalsList extends ActionBarActivity {
                 isCompleted = 0;
                 
                 db.updateGoal(id, isCompleted);
-                Log.i("DBAdapter", "before Completed recreate()");
-                recreate();
+                Log.i("DBAdapter", "before move to goalslist");
+                startActivity(new Intent(getApplicationContext(), GoalsList.class));
             }
         });
-    }
-
-    public void onClickToMoveToIncompleted(View view){
-
-        Log.i("DBAdapter", "before incompleted goals list activity");
-        startActivity(new Intent(this, GoalsList.class));
     }
 
     @Override

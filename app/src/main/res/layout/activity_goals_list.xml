@@ -21,20 +21,7 @@
         android:layout_height="match_parent"
         android:dividerHeight="0.1sp"
         android:divider="#ff595959"
-        android:layout_above="@+id/moveToCompletedButton"
         android:layout_below="@+id/goalListInstructions"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/moveToCompletedButton"
-        android:onClick="onClickToMoveToCompleted"
-        android:background="#c8171717"
-        android:textColor="@android:color/background_light"
-        android:text="@string/moveToCompletedButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
 
     <TextView
         android:layout_width="match_parent"
