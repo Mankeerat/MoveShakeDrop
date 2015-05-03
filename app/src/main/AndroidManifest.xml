@@ -51,11 +51,7 @@
         </activity>
         <activity
             android:name=".WeightHistory"
-            android:label="@string/title_activity_weight_history"
-            android:parentActivityName=".AddWeight" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shianne.hellohealthy.AddWeight" />
+            android:label="@string/title_activity_weight_history">
         </activity>
         <activity
             android:name=".AddGoal"

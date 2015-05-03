@@ -49,4 +49,15 @@
 
     <string name="title_activity_tester">Tester</string>
     <string name="hello_world">Hello world!</string>
+    <string-array name="navItems">
+        <item>Add A Goal</item>
+        <item>Goals List</item>
+        <item>Completed Goals List</item>
+        <item>Add Weight</item>
+        <item>Weight History</item>
+        <item>Select Foods/Drinks</item>
+        <item>Diet History</item>
+    </string-array>
+    <string name="drawerOpen">Open Nav Drawer</string>
+    <string name="drawerClose">Close Nav Drawer</string>
 </resources>
