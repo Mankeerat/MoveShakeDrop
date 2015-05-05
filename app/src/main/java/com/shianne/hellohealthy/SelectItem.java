@@ -2,6 +2,7 @@ package com.shianne.hellohealthy;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,10 +13,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+
+import java.sql.SQLException;
 
 
 public class SelectItem extends ActionBarActivity {
 
+    DBAdapter db = new DBAdapter(this);
+    Cursor c;
+    SimpleCursorAdapter SCAdapter;
     private ListView drawerList;
     private ArrayAdapter<String> navAdapter;
     private ActionBarDrawerToggle drawerToggle;
@@ -27,6 +34,22 @@ public class SelectItem extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_item);
+
+        try{
+            db.openDatabase();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        c = db.getAllItems();
+
+        if(c.getCount() == 0){
+            initialItems();
+            c = db.getAllItems();
+        }
+        displayAllItems();
+
+        db.closeDatabase();
 
         drawerList = (ListView) findViewById(R.id.navList);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -42,6 +65,24 @@ public class SelectItem extends ActionBarActivity {
 
     public void onClickToAddItems(View view){
 
+    }
+
+    private void displayAllItems(){
+
+        ListView listView = (ListView) findViewById(R.id.selectItemListView);
+        String[] from = new String[]{db.KEY_ITEM};
+        int[] to = new int[]{R.id.item};
+        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_item_list_single_row, c, from, to, 0);
+        // Inserts the single rows into the ListView section of Item Selection
+        listView.setAdapter(SCAdapter);
+    }
+
+    private void initialItems(){
+
+        String[] itemListArr = getResources().getStringArray(R.array.selectItemsList);
+        for(int i = 0; i < itemListArr.length; i++){
+            long id = db.createItem(itemListArr[i]);
+        }
     }
 
     private void addDrawerItems(){

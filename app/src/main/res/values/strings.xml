@@ -60,4 +60,22 @@
     </string-array>
     <string name="drawerOpen">Open Nav Drawer</string>
     <string name="drawerClose">Close Nav Drawer</string>
+    <string-array name="selectItemsList">
+        <item>black beans</item>
+        <item>blackberry</item>
+        <item>black-eyed peas</item>
+        <item>black tea</item>
+        <item>coffee</item>
+        <item>coleslaw</item>
+        <item>collard greens</item>
+        <item>granola</item>
+        <item>grape</item>
+        <item>grapefruit</item>
+        <item>peach</item>
+        <item>peanut</item>
+        <item>peanut butter</item>
+        <item>pea</item>
+        <item>pear</item>
+        <item>pecan</item>
+    </string-array>
 </resources>

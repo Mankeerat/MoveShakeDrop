@@ -1,5 +1,6 @@
 package com.shianne.hellohealthy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.widget.DrawerLayout;
@@ -8,12 +9,15 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.sql.SQLException;
 
@@ -32,6 +36,16 @@ public class AddWeight extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_weight);
 
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.weightLayout);
+
+        layout.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+        public boolean onTouch(View v, MotionEvent event){
+                hideKeyboard(v);
+                return false;
+            }
+        });
+
         drawerList = (ListView) findViewById(R.id.navList);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
@@ -41,6 +55,13 @@ public class AddWeight extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    protected void hideKeyboard(View view){
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context
+                .INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public void onClickAddWeight(View view){
