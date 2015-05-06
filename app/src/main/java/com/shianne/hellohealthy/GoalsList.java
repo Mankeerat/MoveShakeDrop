@@ -78,7 +78,6 @@ public class GoalsList extends ActionBarActivity {
 
                 db.updateGoal(id, isCompleted);
                 Log.i("DBAdapter", "before recreate()");
-                //recreate();
                 startActivity(new Intent(getApplicationContext(), CompletedGoalsList.class));
                 Toast.makeText(getBaseContext(), "Congratulations!! You completed a goal!",
                         Toast.LENGTH_LONG).show();

@@ -15,6 +15,8 @@ import java.util.Locale;
 
 /**
  * Created by Shianne on 4/8/2015.
+ *
+ * Used as the Database Adapter
  */
 public class DBAdapter{
 
@@ -175,12 +177,12 @@ public class DBAdapter{
         return db.insert(TABLE_GOAL, null, values);
     }
 
-    // Retrieve ALL Goals
+    /*// Retrieve ALL Goals
     public Cursor getAllGoals(){
 
         return db.query(TABLE_GOAL, new String[]{KEY_ID, KEY_GOALDESC, KEY_DATECOMPLETED,
                 KEY_ISCOMPLETED, KEY_CREATED_AT}, null, null, null, null, KEY_DATECOMPLETED);
-    }
+    }*/
 
     // Retrieve All COMPLETED Goals
     public Cursor getAllCompletedGoals(){
@@ -237,7 +239,7 @@ public class DBAdapter{
 
     // Retrieve
     public Cursor getAllItems(){
-        return db.query(TABLE_ITEM, new String[]{KEY_ID, KEY_ITEM}, null, null, null, null, null);
+        return db.query(TABLE_ITEM, new String[]{KEY_ID, KEY_ITEM}, null, null, null, null, KEY_ITEM);
     }
 
     // -- ENTRY
@@ -295,7 +297,7 @@ public class DBAdapter{
     }*/
 
     // Gets today's date
-    private String getCurrentDateTime(){
+    public String getCurrentDateTime(){
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MMM-dd", Locale.getDefault()
         );

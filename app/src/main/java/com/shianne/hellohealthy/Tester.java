@@ -126,10 +126,6 @@ public class Tester extends ActionBarActivity {
         Intent intent = new Intent(this, AddGoal.class);
         startActivity(intent);
     }
-    public void clickAddItemtoList(View view){
-        Intent intent = new Intent(this, AddItemToList.class);
-        startActivity(intent);
-    }
     public void clickGoalList(View view){
         Intent intent = new Intent(this, GoalsList.class);
         startActivity(intent);

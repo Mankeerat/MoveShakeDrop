@@ -1,5 +1,7 @@
 package com.shianne.hellohealthy;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -7,11 +9,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -32,6 +38,7 @@ public class SelectItem extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_item);
 
@@ -65,16 +72,34 @@ public class SelectItem extends ActionBarActivity {
 
     public void onClickToAddItems(View view){
 
+       /* Button button = (Button) findViewById(R.id.selectItemButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String date = db.getCurrentDateTime();
+
+                db.createEntry(date);
+            }
+        });*/
     }
 
     private void displayAllItems(){
 
-        ListView listView = (ListView) findViewById(R.id.selectItemListView);
+        final ListView listView = (ListView) findViewById(R.id.selectItemListView);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setTextFilterEnabled(true);
         String[] from = new String[]{db.KEY_ITEM};
         int[] to = new int[]{R.id.item};
         SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_item_list_single_row, c, from, to, 0);
         // Inserts the single rows into the ListView section of Item Selection
         listView.setAdapter(SCAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     private void initialItems(){
@@ -156,35 +181,74 @@ public class SelectItem extends ActionBarActivity {
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState){
+
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig){
+
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_select_item, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            /*case R.id.action_search:
+                openSearch();
+                return true;*/
+            case R.id.action_new:
+                // create a input box for adding new items to list
+                LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+                View promptView = inflater.inflate(R.layout.activity_add_item_to_list, null);
 
-        return super.onOptionsItemSelected(item) || drawerToggle.onOptionsItemSelected(item);
+                Log.i("DBAdapter", "select item - before click listener");
+                        AlertDialog.Builder adb = new AlertDialog.Builder(SelectItem.this);
+                                adb.setTitle(R.string.title_activity_add_item_to_list)
+                                .setMessage(R.string.addItemDesc)
+                                .setView(promptView);
+                        final EditText input = (EditText) promptView.findViewById(R.id.addedItem);
+                                adb.setPositiveButton
+                                ("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        try{
+                                            db.openDatabase();
+                                        }catch(SQLException e){
+                                            e.printStackTrace();
+                                        }
+                                        db.createItem(input.getText().toString());
+                                        recreate();
+                                    }
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item) || drawerToggle.onOptionsItemSelected(item);
+        }
     }
+
 }

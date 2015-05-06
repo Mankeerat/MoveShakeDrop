@@ -6,6 +6,26 @@
     <string name="select_item">Select Your Foods and Drinks:</string>
     <string name="title_activity_select_item">Select Foods and Drinks</string>
     <string name="select_item_button">Add Selected Items</string>
+    <string-array name="selectItemsList">
+        <item>black beans</item>
+        <item>blackberry</item>
+        <item>black-eyed peas</item>
+        <item>black tea</item>
+        <item>coffee</item>
+        <item>coleslaw</item>
+        <item>collard greens</item>
+        <item>granola</item>
+        <item>grape</item>
+        <item>grapefruit</item>
+        <item>peach</item>
+        <item>peanut</item>
+        <item>peanut butter</item>
+        <item>pea</item>
+        <item>pear</item>
+        <item>pecan</item>
+    </string-array>
+    <string name="action_search">Search Items..</string>
+    <string name="action_new">Add Item</string>
 
     <!--Item List-->
     <string name="title_activity_item_list">Today\'s Food and Drink Intake</string>
@@ -60,22 +80,5 @@
     </string-array>
     <string name="drawerOpen">Open Nav Drawer</string>
     <string name="drawerClose">Close Nav Drawer</string>
-    <string-array name="selectItemsList">
-        <item>black beans</item>
-        <item>blackberry</item>
-        <item>black-eyed peas</item>
-        <item>black tea</item>
-        <item>coffee</item>
-        <item>coleslaw</item>
-        <item>collard greens</item>
-        <item>granola</item>
-        <item>grape</item>
-        <item>grapefruit</item>
-        <item>peach</item>
-        <item>peanut</item>
-        <item>peanut butter</item>
-        <item>pea</item>
-        <item>pear</item>
-        <item>pecan</item>
-    </string-array>
+
 </resources>
