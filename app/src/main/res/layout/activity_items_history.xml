@@ -21,10 +21,10 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"/>
 
-        <ExpandableListView
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/expandableListView"
+            android:id="@+id/itemHistoryListView"
             android:layout_below="@+id/dailyItemHistory"/>
 
     </RelativeLayout>

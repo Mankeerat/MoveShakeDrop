@@ -2,6 +2,7 @@ package com.shianne.hellohealthy;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,7 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 // Main page of the food intake part
 public class ItemsHistory extends ActionBarActivity {
@@ -22,11 +33,33 @@ public class ItemsHistory extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
+    List<String> groupList;
+    List<String> childList;
+    Map<String, List<String>> groupedItems;
+    ExpandableListView expandLV;
+    Cursor c;
+    DBAdapter db = new DBAdapter(this);
+    ListView listView;
+    SimpleCursorAdapter SCAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_history);
+
+        try{
+            db.openDatabase();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        // Retrieves all the entries from the database
+        c = db.getAllEntries();
+
+        // Displays all the entries
+        displayAllEntries();
+
+        db.closeDatabase();
 
         drawerList = (ListView) findViewById(R.id.navList);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -38,6 +71,42 @@ public class ItemsHistory extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    private void displayAllEntries(){
+
+
+        final Intent i = new Intent(getApplicationContext(), ItemList.class);
+        listView = (ListView) findViewById(R.id.itemHistoryListView);
+        String[] from = new String[]{db.KEY_ENTRY};
+        int[] to = new int[]{R.id.itemHistoryTextView};
+        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_items_history_single_row, c, from, to, 0);
+        listView.setAdapter(SCAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View v = listView.getChildAt(position);
+                TextView tv = (TextView) v.findViewById(R.id.itemHistoryTextView);
+                final ArrayList<String> itemsArr = new ArrayList<>();
+
+                try{
+                    db.openDatabase();
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
+
+                c = db.getEntry(tv.getText().toString());
+                while (!c.isAfterLast()){
+                    itemsArr.add(c.getString(c.getColumnIndex(db.KEY_ITEM)));
+                    c.moveToNext();
+                }
+                c.close();
+                db.closeDatabase();
+
+                i.putStringArrayListExtra("selectedItems", itemsArr);
+                startActivity(i);
+            }
+        });
     }
 
     // Adds each item to the sliding menu

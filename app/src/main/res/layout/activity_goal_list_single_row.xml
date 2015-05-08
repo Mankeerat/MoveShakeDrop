@@ -10,8 +10,7 @@
         android:id="@+id/goalDesc"
         android:layout_below="@+id/dateCompleted"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="to see how it looks"/>
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -20,7 +19,6 @@
         android:id="@+id/dateCompleted"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Some text"/>
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>

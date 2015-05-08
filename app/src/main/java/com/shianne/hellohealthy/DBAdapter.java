@@ -270,19 +270,20 @@ public class DBAdapter{
 
     // Retrieve
     public Cursor getAllEntries(){
-        return db.query(TABLE_ENTRY, new String[]{KEY_ID, KEY_ENTRY}, null, null, null, null, null);
+        return db.query(true, TABLE_ENTRY, new String[]{KEY_ID, KEY_ENTRY}, null, null, KEY_ENTRY, null, KEY_ENTRY + " DESC", null);
     }
 
     // Retrieve all the items under a single entry
     public Cursor getEntry(String entry){
 
-        String query = "SELECT * FROM "
-                + TABLE_ENTRY + "en, "
-                + TABLE_ITEM + "it, "
-                + TABLE_ITEM_ENTRY + "ie"
+        String query = "SELECT DISTINCT it." + KEY_ITEM +" FROM "
+                + TABLE_ENTRY + " en, "
+                + TABLE_ITEM + " it, "
+                + TABLE_ITEM_ENTRY + " ie"
                 + " WHERE en." + KEY_ENTRY + " = '" + entry + "'"
                 + " AND en." + KEY_ID + " = " + "ie." + KEY_ENTRY_ID
-                + " AND it." + KEY_ID + " = " + "ie." + KEY_ITEM_ID;
+                + " AND it." + KEY_ID + " = " + "ie." + KEY_ITEM_ID
+                + " ORDER BY " + KEY_ITEM;
 
         Cursor entryCursor = db.rawQuery(query, null);
 

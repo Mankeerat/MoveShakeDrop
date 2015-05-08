@@ -49,8 +49,13 @@ public class ItemList extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(getApplicationContext(), ItemsHistory.class));
+    }
     // Adds each item to the sliding menu
     private void addDrawerItems(){
 
