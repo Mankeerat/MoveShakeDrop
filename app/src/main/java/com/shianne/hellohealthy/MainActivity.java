@@ -18,11 +18,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Used as a splash screen
         int secondsDelayed = 1;//int secondsDelayed = 5;
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                startActivity(new Intent(MainActivity.this, Tester.class));//startActivity(new
-                // Intent(MainActivity.this, ItemsHistory.class));
+                startActivity(new Intent(MainActivity.this, WeightHistory.class));
                 finish();
             }
         }, secondsDelayed * 1000);

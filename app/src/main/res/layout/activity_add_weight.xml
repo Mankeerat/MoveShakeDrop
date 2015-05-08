@@ -63,9 +63,7 @@
             android:id="@+id/datePickerAddWeight"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
-            android:layout_below="@+id/dateTitle"
-            android:layout_alignLeft="@+id/datePickerAddWeight"
-            android:layout_alignStart="@+id/datePickerAddWeight"/>
+            android:layout_below="@+id/dateTitle"/>
 
         <Button
             android:layout_width="match_parent"
@@ -77,6 +75,16 @@
             android:background="#c8171717"
             android:textColor="@android:color/background_light"
             android:onClick="onClickAddWeight"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addWeightValidation"
+            android:layout_below="@+id/weightVal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="20sp"
+            android:text="Maximum of 5 values including decimal. eg. 180.5"/>
 
     </RelativeLayout>
 

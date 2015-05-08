@@ -7,6 +7,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 
@@ -31,7 +35,8 @@ public class AddGoal extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
-
+    EditText goalDescET;
+    TextView goalValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,11 @@ public class AddGoal extends ActionBarActivity {
         setContentView(R.layout.activity_add_goal);
 
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.goalLayout);
+        goalDescET = (EditText) findViewById(R.id.goalDescEdit);
+        goalValid = (TextView) findViewById(R.id.addGoalValidation);
+        goalDescET.addTextChangedListener(watch);
 
+        // When the screen is touched outside of the edit field, the keyboard will be hidden
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -53,6 +62,7 @@ public class AddGoal extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
+        // Creates the sliding navigation menu
         addDrawerItems();
         setupDrawer();
 
@@ -60,6 +70,7 @@ public class AddGoal extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    // Hide the soft keyboard
     protected void hideKeyboard(View view){
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context
@@ -67,32 +78,59 @@ public class AddGoal extends ActionBarActivity {
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    TextWatcher watch = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if (s.length() == 0){
+                Toast.makeText(getApplicationContext(), "Field must contain value!", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
+
+    // Adds the new goal to the database and displays the Goals list
     public void onClickAddGoal(View view){
 
-        EditText goalDescET = (EditText) findViewById(R.id.goalDescEdit);
+        goalDescET = (EditText) findViewById(R.id.goalDescEdit);
         String goalDesc = goalDescET.getText().toString();
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerAddGoal);
         String dateCompleted = db.getDateTime(datePicker);
 
-        try {
-            db.openDatabase();
-        }catch(SQLException e){
-            e.printStackTrace();
+        // If the user doesn't enter a value into the goal description, an error will display and
+        // redisplay the activity
+        if(goalDesc.equals("")) {
+            recreate();
+            Toast.makeText(getApplicationContext(), "Field must contain a value, please!", Toast.LENGTH_LONG).show();
+        }else {
+            try {
+                db.openDatabase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            // Inserts new goal into table
+            db.createGoal(goalDesc, dateCompleted);
+
+            // Displays all the goals including the new one in the Goals List
+            startActivity(new Intent(this, GoalsList.class));
         }
-
-        // Inserts new goal into table
-        db.createGoal(goalDesc, dateCompleted);
-
-        // Displays all the goals including the new one in the Goals List
-        startActivity(new Intent(this, GoalsList.class));
-
-
     }
 
+    // Adds each item to the sliding menu
     private void addDrawerItems(){
 
         String[] listArr = getResources().getStringArray(R.array.navItems);
-        navAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+        navAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listArr);
         drawerList.setAdapter(navAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -135,6 +173,7 @@ public class AddGoal extends ActionBarActivity {
         });
     }
 
+    // Decides what to display when sliding menu is open or closed
     private void setupDrawer(){
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawerOpen,

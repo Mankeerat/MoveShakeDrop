@@ -23,26 +23,14 @@
         <activity
             android:name=".ItemList"
             android:label="@string/title_activity_item_list"
-            android:parentActivityName=".SelectItem" >
+            android:parentActivityName=".ItemsHistory" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shianne.hellohealthy.SelectItem" />
+                android:value="com.shianne.hellohealthy.ItemsHistory" />
         </activity>
         <activity
             android:name=".ItemsHistory"
-            android:label="@string/title_activity_items_history"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shianne.hellohealthy.MainActivity" />
-        </activity>
-        <activity
-            android:name=".AddItemToList"
-            android:label="@string/title_activity_add_item_to_list"
-            android:parentActivityName=".SelectItem" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shianne.hellohealthy.SelectItem" />
+            android:label="@string/title_activity_items_history">
         </activity>
         <activity
             android:name=".AddWeight"
@@ -62,17 +50,13 @@
             android:name=".GoalsList"
             android:label="@string/title_activity_goals_list" >
         </activity>
-        <activity
+        <!--<activity
             android:name=".Tester"
             android:label="@string/title_activity_tester" >
-        </activity>
+        </activity>-->
         <activity
             android:name=".CompletedGoalsList"
-            android:label="@string/title_activity_completed_goals_list"
-            android:parentActivityName=".GoalsList" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shianne.hellohealthy.GoalsList" />
+            android:label="@string/title_activity_completed_goals_list">
         </activity>
     </application>
 

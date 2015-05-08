@@ -7,6 +7,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 
@@ -30,6 +34,8 @@ public class AddWeight extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
+    EditText weightET;
+    TextView weightValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,11 @@ public class AddWeight extends ActionBarActivity {
         setContentView(R.layout.activity_add_weight);
 
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.weightLayout);
+        weightET = (EditText) findViewById(R.id.weightVal);
+        weightValid = (TextView) findViewById(R.id.addWeightValidation);
+        weightET.addTextChangedListener(watch);
 
+        // When the screen is touched outside of the edit field, the keyboard will be hidden
         layout.setOnTouchListener(new View.OnTouchListener(){
             @Override
         public boolean onTouch(View v, MotionEvent event){
@@ -50,6 +60,7 @@ public class AddWeight extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
+        // Create the sliding navigation menu
         addDrawerItems();
         setupDrawer();
 
@@ -57,6 +68,7 @@ public class AddWeight extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    // Hide the soft keyboard
     protected void hideKeyboard(View view){
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context
@@ -64,30 +76,60 @@ public class AddWeight extends ActionBarActivity {
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    TextWatcher watch = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if(s.length() == 5){
+                Toast.makeText(getApplicationContext(), "Maximum value reached!", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
+
+    // Adds the new weight to the database and displays the Weight History
     public void onClickAddWeight(View view){
 
-        EditText weightET = (EditText) findViewById(R.id.weightVal);
+        weightET = (EditText) findViewById(R.id.weightVal);
         String weight = weightET.getText().toString();
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePickerAddWeight);
         String dateWeighed = db.getDateTime(datePicker);
 
-        try{
-            db.openDatabase();
-        }catch (SQLException e){
-            e.printStackTrace();
+        // If the user leaves the weight value empty or greater than 999.9 lbs, it will show an
+        // error and redisplay the activity
+        if(weight.equals("") || Float.parseFloat(weight) > 999.9) {
+            recreate();
+            Toast.makeText(getApplicationContext(), "Field must contain proper values, please!",
+                    Toast.LENGTH_LONG).show();
+        }else {
+            try {
+                db.openDatabase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            // Inserts new weight into table
+            db.createWeight(weight, dateWeighed);
+
+            // Displays all the weight values including newest one to Weight History
+            startActivity(new Intent(this, WeightHistory.class));
         }
-
-        // Inserts new weight into table
-        db.createWeight(weight, dateWeighed);
-
-        // Displays all the weight values including newest one to Weight History
-        startActivity(new Intent(this, WeightHistory.class));
     }
 
+    // Adds each item to the sliding menu
     private void addDrawerItems(){
 
         String[] listArr = getResources().getStringArray(R.array.navItems);
-        navAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+        navAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listArr);
         drawerList.setAdapter(navAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -130,6 +172,7 @@ public class AddWeight extends ActionBarActivity {
         });
     }
 
+    // Decides what to display when sliding menu is open or closed
     private void setupDrawer(){
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawerOpen,

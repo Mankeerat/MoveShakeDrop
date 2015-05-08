@@ -13,7 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-// When user selects foods/drinks and submits, this page displays todays intake
+import java.util.ArrayList;
+
+// When user selects foods/drinks and submits, this page displays today's intake
 public class ItemList extends ActionBarActivity {
 
     private ListView drawerList;
@@ -22,16 +24,26 @@ public class ItemList extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
+    private ListView itemListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
+        Intent intent = getIntent();
+        ArrayList<String> items = intent.getStringArrayListExtra("selectedItems");
+        itemListView = (ListView) findViewById(R.id.itemsList);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+
+        itemListView.setAdapter(arrayAdapter);
+
         drawerList = (ListView) findViewById(R.id.navList);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
+        // Creates the sliding navigation menu
         addDrawerItems();
         setupDrawer();
 
@@ -39,10 +51,11 @@ public class ItemList extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    // Adds each item to the sliding menu
     private void addDrawerItems(){
 
         String[] listArr = getResources().getStringArray(R.array.navItems);
-        navAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+        navAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listArr);
         drawerList.setAdapter(navAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,6 +98,7 @@ public class ItemList extends ActionBarActivity {
         });
     }
 
+    // Decides what to display when sliding menu is open or closed
     private void setupDrawer(){
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawerOpen,

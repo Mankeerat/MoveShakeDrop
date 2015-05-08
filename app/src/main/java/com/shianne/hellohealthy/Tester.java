@@ -1,3 +1,4 @@
+/*
 package com.shianne.hellohealthy;
 
 import android.content.Intent;
@@ -174,3 +175,4 @@ public class Tester extends ActionBarActivity {
         return super.onOptionsItemSelected(item) || drawerToggle.onOptionsItemSelected(item);
     }
 }
+*/

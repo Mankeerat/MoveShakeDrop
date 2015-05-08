@@ -30,7 +30,8 @@
             android:layout_below="@+id/selectItemText"
             android:layout_above="@+id/selectItemButton"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:choiceMode="multipleChoice"/>
 
         <Button
             android:layout_width="match_parent"

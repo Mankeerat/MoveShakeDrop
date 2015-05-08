@@ -79,6 +79,16 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addGoalValidation"
+            android:layout_below="@+id/goalDescEdit"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="20sp"
+            android:text="Must contain a value."/>
+
     </RelativeLayout>
 
     <ListView

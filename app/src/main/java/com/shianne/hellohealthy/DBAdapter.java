@@ -237,7 +237,22 @@ public class DBAdapter{
         return db.insert(TABLE_ITEM, null, values);
     }
 
-    // Retrieve
+    // Retrieve one item
+    public long getItem(String item) throws SQLException{
+
+        Cursor c = db.query(true, TABLE_ITEM, new String[]{KEY_ID}, KEY_ITEM + "= '" + item + "'", null, null, null, null, null);
+        long result = 0;
+
+        if(c != null){
+            c.moveToFirst();
+            result = c.getLong(0);
+        }
+
+        return result;
+
+    }
+
+    // Retrieve all items
     public Cursor getAllItems(){
         return db.query(TABLE_ITEM, new String[]{KEY_ID, KEY_ITEM}, null, null, null, null, KEY_ITEM);
     }

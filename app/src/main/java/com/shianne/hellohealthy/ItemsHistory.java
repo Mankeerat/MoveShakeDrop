@@ -32,6 +32,7 @@ public class ItemsHistory extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
+        // Creates the sliding navigation menu
         addDrawerItems();
         setupDrawer();
 
@@ -39,10 +40,11 @@ public class ItemsHistory extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    // Adds each item to the sliding menu
     private void addDrawerItems(){
 
         String[] listArr = getResources().getStringArray(R.array.navItems);
-        navAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+        navAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listArr);
         drawerList.setAdapter(navAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,6 +87,7 @@ public class ItemsHistory extends ActionBarActivity {
         });
     }
 
+    // Decides what to display when sliding menu is open or closed
     private void setupDrawer(){
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawerOpen,

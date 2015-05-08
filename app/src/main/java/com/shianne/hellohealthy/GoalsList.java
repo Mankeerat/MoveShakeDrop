@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
@@ -40,55 +41,54 @@ public class GoalsList extends ActionBarActivity {
         setContentView(R.layout.activity_goals_list);
 
         try{
-            Log.i("DBAdapter", "Goal list open db");
              db.openDatabase();
         }catch(SQLException e){
             e.printStackTrace();
         }
-        Log.i("DBAdapter", "before retrieve goals");
+
         // Retrieve all the goals from the database
         c = db.getAllIncompletedGoals();
-        Log.i("DBAdapter", "before listview");
+
         // Display the goals
         listView = (ListView) findViewById(R.id.list_data);
         String[] from = new String[]{db.KEY_GOALDESC, db.KEY_DATECOMPLETED}; // From database
         int[] to = new int[]{R.id.goalDesc, R.id.dateCompleted}; // To the view
-        SCAdapter = new SimpleCursorAdapter(this,R.layout.activity_goal_list_single_row, c, from,
+
+        // Create a simple cursor adapter to display the goal list
+        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_goal_list_single_row, c, from,
                 to, 0);
-        Log.i("DBAdapter", "before viewBinder");
-        final SimpleCursorAdapter.ViewBinder viewBinder = new SimpleCursorAdapter.ViewBinder(){
+
+        final SimpleCursorAdapter.ViewBinder viewBinder = new SimpleCursorAdapter.ViewBinder() {
             @Override
-        public boolean setViewValue( final View view, final Cursor cursor, final int colIndex){
+            public boolean setViewValue(final View view, final Cursor cursor, final int colIndex) {
 
                 return false;
             }
         };
         SCAdapter.setViewBinder(viewBinder);
-        Log.i("DBAdapter", "end viewBinder section");
-        // Inserts the single rows into the ListView section of Goals List
+
+        // Inserts the rows into the ListView section of Goals List
         listView.setAdapter(SCAdapter);
 
-
-        //listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("DBAdapter", "before onitemclick");
+
                 isCompleted = 1;
 
+                // Updates the goal and displays the completed goals list activity
                 db.updateGoal(id, isCompleted);
-                Log.i("DBAdapter", "before recreate()");
                 startActivity(new Intent(getApplicationContext(), CompletedGoalsList.class));
                 Toast.makeText(getBaseContext(), "Congratulations!! You completed a goal!",
                         Toast.LENGTH_LONG).show();
-                //recreate or after click move to completed goals page
-            }
-        });
+                }
+            });
 
         drawerList = (ListView) findViewById(R.id.navList);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
+        // Creates the sliding navigation menu
         addDrawerItems();
         setupDrawer();
 
@@ -96,10 +96,11 @@ public class GoalsList extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    // Adds each item to the sliding menu
     private void addDrawerItems(){
 
         String[] listArr = getResources().getStringArray(R.array.navItems);
-        navAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+        navAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listArr);
         drawerList.setAdapter(navAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,6 +143,7 @@ public class GoalsList extends ActionBarActivity {
         });
     }
 
+    // Decides what to display when sliding menu is open or closed
     private void setupDrawer(){
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawerOpen,

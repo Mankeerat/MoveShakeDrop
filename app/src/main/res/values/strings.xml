@@ -7,22 +7,11 @@
     <string name="title_activity_select_item">Select Foods and Drinks</string>
     <string name="select_item_button">Add Selected Items</string>
     <string-array name="selectItemsList">
-        <item>black beans</item>
         <item>blackberry</item>
-        <item>black-eyed peas</item>
-        <item>black tea</item>
         <item>coffee</item>
         <item>coleslaw</item>
-        <item>collard greens</item>
-        <item>granola</item>
         <item>grape</item>
         <item>grapefruit</item>
-        <item>peach</item>
-        <item>peanut</item>
-        <item>peanut butter</item>
-        <item>pea</item>
-        <item>pear</item>
-        <item>pecan</item>
     </string-array>
     <string name="action_search">Search Items..</string>
     <string name="action_new">Add Item</string>
@@ -49,6 +38,7 @@
     <string name="title_activity_weight_history">Weight History</string>
     <string name="weightHeading">Weight</string>
     <string name="dateWeighedHeading">Date</string>
+    <string name="noWeightMessage">You haven\'t entered a weight. Don\'t worry, Add one now from the slide menu on the left or the three lines on the top left.</string>
 
     <!--Add Goal-->
     <string name="title_activity_add_goal">Add a New Goal</string>
@@ -60,12 +50,14 @@
     <string name="title_activity_goals_list">Goals List</string>
     <string name="moveToCompletedButton">Move to Completed</string>
     <string name="goalListInstructions">Click on the goal when it is completed.</string>
+    <string name="noGoalMessage">Please, enter a goal! You can achieve it! Go to the slide menu on the left or the three lines on the top left.</string>
 
     <!-- Completed Goals List-->
     <string name="title_activity_completed_goals_list">Completed Goals List</string>
     <string name="moveToIncompletedButton">Move back to Goals List</string>
     <string name="completedGoalInstructions">Click on goal if it NOT completed.</string>
-
+    <string name="noCompletedGoalMessage">I\'m sure you\'re on your way to completing some
+        goals! Good luck!</string>
 
     <string name="title_activity_tester">Tester</string>
     <string name="hello_world">Hello world!</string>

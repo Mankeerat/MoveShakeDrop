@@ -29,6 +29,7 @@ public class WeightHistory extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class WeightHistory extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
+        // Creates the sliding navigation menu
         addDrawerItems();
         setupDrawer();
 
@@ -60,9 +62,10 @@ public class WeightHistory extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    // Displays all weight values using the simple cursor adapter
     private void displayAllWeight(){
 
-        ListView listView = (ListView) findViewById(R.id.weightList);
+        listView = (ListView) findViewById(R.id.weightList);
         String[] from = new String[]{db.KEY_WEIGHT, db.KEY_DATEWEIGHED};
         int[] to = new int[]{R.id.weight, R.id.dateWeighed};
         SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_weight_history_single_row, c, from, to, 0);
@@ -70,10 +73,11 @@ public class WeightHistory extends ActionBarActivity {
         listView.setAdapter(SCAdapter);
     }
 
+    // Adds each item to the sliding menu
     private void addDrawerItems(){
 
         String[] listArr = getResources().getStringArray(R.array.navItems);
-        navAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+        navAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listArr);
         drawerList.setAdapter(navAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,6 +120,7 @@ public class WeightHistory extends ActionBarActivity {
         });
     }
 
+    // Decides what to display when sliding menu is open or closed
     private void setupDrawer(){
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawerOpen,

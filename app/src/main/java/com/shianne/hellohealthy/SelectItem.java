@@ -10,18 +10,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class SelectItem extends ActionBarActivity {
@@ -35,6 +39,8 @@ public class SelectItem extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
+    ArrayList<Long> idArr = new ArrayList<>();
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class SelectItem extends ActionBarActivity {
 
         c = db.getAllItems();
 
+        // This is done to add some items to the list and database on the first run
         if(c.getCount() == 0){
             initialItems();
             c = db.getAllItems();
@@ -62,6 +69,7 @@ public class SelectItem extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         activityTitle = getTitle().toString();
 
+        // Creates the sliding navigation menu
         addDrawerItems();
         setupDrawer();
 
@@ -70,50 +78,96 @@ public class SelectItem extends ActionBarActivity {
     }
 
 
+    // After items are selected, this saves the entry to the database
     public void onClickToAddItems(View view){
 
-       /* Button button = (Button) findViewById(R.id.selectItemButton);
+       Button button = (Button) findViewById(R.id
+       .selectItemButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String date = db.getCurrentDateTime();
+                //SparseBooleanArray checked = listView.getCheckedItemPositions();
+                ArrayList<String> list = new ArrayList<>();
+                long itemId = 0;
+                Intent intent = new Intent(getApplicationContext(), ItemList.class);
 
-                db.createEntry(date);
-            }
-        });*/
-    }
+                try{
+                    db.openDatabase();
+                }catch(SQLException e){
+                    e.printStackTrace();
+                }
 
-    private void displayAllItems(){
+                // Creates the entry using the date
+                long entryId = db.createEntry(date);
+                //c = db.getAllItems();
 
-        final ListView listView = (ListView) findViewById(R.id.selectItemListView);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        listView.setTextFilterEnabled(true);
-        String[] from = new String[]{db.KEY_ITEM};
-        int[] to = new int[]{R.id.item};
-        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_item_list_single_row, c, from, to, 0);
-        // Inserts the single rows into the ListView section of Item Selection
-        listView.setAdapter(SCAdapter);
+                // Loops through to find the checked boxes
+                for(int i = 0; i < listView.getChildCount(); i++){
+                    View view = listView.getChildAt(i);
+                    CheckedTextView ctv = (CheckedTextView) view.findViewById(R.id
+                            .selectItemCheckedTextView);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // If an item is checked
+                    if(ctv.isChecked()){
+                        try {
+                            // Retrieve the id for the checked item
+                            itemId = db.getItem(ctv.getText().toString());
 
+                            // Add the item to a list
+                            list.add(ctv.getText().toString());
+                        }catch(SQLException e){
+                            e.printStackTrace();
+                        }
+                        // Create a item-entry record for each item connected to an entry
+                        long itemEntryId = db.createItemEntry(itemId, entryId);
+                    }
+                }
+                db.closeDatabase();
+                // Add list of items to the intent
+                intent.putStringArrayListExtra("selectedItems", list);
+                // Starts the Item List activity to show the items just selected
+                startActivity(intent);
             }
         });
     }
 
+    // This displays the items in the ListView
+    private void displayAllItems(){
+
+        listView = (ListView) findViewById(R.id.selectItemListView);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        //listView.setTextFilterEnabled(true);
+        String[] from = new String[]{db.KEY_ITEM};
+        int[] to = new int[]{R.id.selectItemCheckedTextView};
+        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_select_item_single_row, c, from,
+                to, 0);
+        // Inserts the single rows into the ListView section of Item Selection
+        listView.setAdapter(SCAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View v = listView.getChildAt(position);
+                CheckedTextView ctv = (CheckedTextView) v.findViewById(R.id.selectItemCheckedTextView);
+                ctv.toggle();
+            }
+        });
+    }
+
+    // On the first run of the app, an items list is added to the database
     private void initialItems(){
 
         String[] itemListArr = getResources().getStringArray(R.array.selectItemsList);
-        for(int i = 0; i < itemListArr.length; i++){
-            long id = db.createItem(itemListArr[i]);
+        for (String anItemListArr : itemListArr) {
+            long id = db.createItem(anItemListArr);
         }
     }
 
+    // Adds each item to the sliding menu
     private void addDrawerItems(){
 
         String[] listArr = getResources().getStringArray(R.array.navItems);
-        navAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+        navAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listArr);
         drawerList.setAdapter(navAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,6 +210,7 @@ public class SelectItem extends ActionBarActivity {
         });
     }
 
+    // Decides what to display when sliding menu is open or closed
     private void setupDrawer(){
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawerOpen,
@@ -219,31 +274,31 @@ public class SelectItem extends ActionBarActivity {
                 // create a input box for adding new items to list
                 LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                 View promptView = inflater.inflate(R.layout.activity_add_item_to_list, null);
+                AlertDialog.Builder adb = new AlertDialog.Builder(SelectItem.this);
 
-                Log.i("DBAdapter", "select item - before click listener");
-                        AlertDialog.Builder adb = new AlertDialog.Builder(SelectItem.this);
-                                adb.setTitle(R.string.title_activity_add_item_to_list)
-                                .setMessage(R.string.addItemDesc)
-                                .setView(promptView);
-                        final EditText input = (EditText) promptView.findViewById(R.id.addedItem);
-                                adb.setPositiveButton
-                                ("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        try{
-                                            db.openDatabase();
-                                        }catch(SQLException e){
-                                            e.printStackTrace();
-                                        }
-                                        db.createItem(input.getText().toString());
-                                        recreate();
-                                    }
-                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        }).show();
+                adb.setTitle(R.string.title_activity_add_item_to_list)
+                   .setMessage(R.string.addItemDesc)
+                   .setView(promptView);
+                final EditText input = (EditText) promptView.findViewById(R.id.addedItem);
+                adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try{
+                            db.openDatabase();
+                        }catch(SQLException e){
+                            e.printStackTrace();
+                        }
+                        db.createItem(input.getText().toString());
+                        recreate();
+                    }
+                })
+                   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+            }
+
+                   }).show();
 
                 return true;
             default:
