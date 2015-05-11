@@ -325,7 +325,7 @@ public class DBAdapter{
     public String getDateTime(DatePicker datePicker){
 
         String day = String.valueOf(datePicker.getDayOfMonth());
-        int m = datePicker.getMonth() + 1;
+        int m = datePicker.getMonth();
         final String[] MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
         String month = MONTHS[m];
         String year = String.valueOf(datePicker.getYear());

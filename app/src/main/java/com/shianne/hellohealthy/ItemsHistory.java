@@ -33,10 +33,6 @@ public class ItemsHistory extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
-    List<String> groupList;
-    List<String> childList;
-    Map<String, List<String>> groupedItems;
-    ExpandableListView expandLV;
     Cursor c;
     DBAdapter db = new DBAdapter(this);
     ListView listView;

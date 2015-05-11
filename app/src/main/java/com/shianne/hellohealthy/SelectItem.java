@@ -9,13 +9,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,7 +36,6 @@ public class SelectItem extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
-    ArrayList<Long> idArr = new ArrayList<>();
     private ListView listView;
 
     @Override
@@ -87,7 +83,6 @@ public class SelectItem extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String date = db.getCurrentDateTime();
-                //SparseBooleanArray checked = listView.getCheckedItemPositions();
                 ArrayList<String> list = new ArrayList<>();
                 long itemId = 0;
                 Intent intent = new Intent(getApplicationContext(), ItemList.class);
@@ -100,7 +95,6 @@ public class SelectItem extends ActionBarActivity {
 
                 // Creates the entry using the date
                 long entryId = db.createEntry(date);
-                //c = db.getAllItems();
 
                 // Loops through to find the checked boxes
                 for(int i = 0; i < listView.getChildCount(); i++){
@@ -154,7 +148,7 @@ public class SelectItem extends ActionBarActivity {
         });
     }
 
-    // On the first run of the app, an items list is added to the database
+    // On the first run of the activity, an items list is added to the database
     private void initialItems(){
 
         String[] itemListArr = getResources().getStringArray(R.array.selectItemsList);

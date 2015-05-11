@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // Used as a splash screen
-        int secondsDelayed = 1;//int secondsDelayed = 5;
+        int secondsDelayed = 5;
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 startActivity(new Intent(MainActivity.this, WeightHistory.class));
