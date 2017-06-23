@@ -131,6 +131,7 @@ public class SelectItem extends ActionBarActivity {
 
         listView = (ListView) findViewById(R.id.selectItemListView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setItemsCanFocus(false);
         //listView.setTextFilterEnabled(true);
         String[] from = new String[]{db.KEY_ITEM};
         int[] to = new int[]{R.id.selectItemCheckedTextView};
@@ -141,9 +142,10 @@ public class SelectItem extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                View v = listView.getChildAt(position);
+
+                /*View v = listView.getChildAt(position);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(R.id.selectItemCheckedTextView);
-                ctv.toggle();
+                ctv.toggle();*/
             }
         });
     }
