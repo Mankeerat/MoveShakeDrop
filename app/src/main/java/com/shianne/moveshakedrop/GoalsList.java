@@ -1,7 +1,9 @@
-package com.shianne.hellohealthy;
+package com.shianne.moveshakedrop;
+
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,32 +14,73 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 
-// When user selects foods/drinks and submits, this page displays today's intake
-public class ItemList extends ActionBarActivity {
+public class GoalsList extends ActionBarActivity {
 
+    DBAdapter db = new DBAdapter(this);
+    Cursor c;
+    SimpleCursorAdapter SCAdapter;
+    int isCompleted = 0;
+    ListView listView;
     private ListView drawerList;
     private ArrayAdapter<String> navAdapter;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
-    private ListView itemListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+        setContentView(R.layout.activity_goals_list);
 
-        Intent intent = getIntent();
-        ArrayList<String> items = intent.getStringArrayListExtra("selectedItems");
-        itemListView = (ListView) findViewById(R.id.itemsList);
+        try{
+             db.openDatabase();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        // Retrieve all the goals from the database
+        c = db.getAllIncompletedGoals();
 
-        itemListView.setAdapter(arrayAdapter);
+        // Display the goals
+        listView = (ListView) findViewById(R.id.list_data);
+        String[] from = new String[]{db.KEY_GOALDESC, db.KEY_DATECOMPLETED}; // From database
+        int[] to = new int[]{R.id.goalDesc, R.id.dateCompleted}; // To the view
+
+        // Create a simple cursor adapter to display the goal list
+        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_goal_list_single_row, c, from,
+                to, 0);
+
+        final SimpleCursorAdapter.ViewBinder viewBinder = new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(final View view, final Cursor cursor, final int colIndex) {
+
+                return false;
+            }
+        };
+        SCAdapter.setViewBinder(viewBinder);
+
+        // Inserts the rows into the ListView section of Goals List
+        listView.setAdapter(SCAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                isCompleted = 1;
+
+                // Updates the goal and displays the completed goals list activity
+                db.updateGoal(id, isCompleted);
+                startActivity(new Intent(getApplicationContext(), CompletedGoalsList.class));
+                Toast.makeText(getBaseContext(), "Congratulations!! You completed a goal!",
+                        Toast.LENGTH_LONG).show();
+                }
+            });
 
         drawerList = (ListView) findViewById(R.id.navList);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -49,13 +92,8 @@ public class ItemList extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
 
-    @Override
-    public void onBackPressed(){
-        startActivity(new Intent(getApplicationContext(), ItemsHistory.class));
-    }
     // Adds each item to the sliding menu
     private void addDrawerItems(){
 
@@ -69,31 +107,31 @@ public class ItemList extends ActionBarActivity {
                 drawerList.setItemChecked(position, true);
                 switch(position){
                     case 0:
-                        intent = new Intent(ItemList.this, AddGoal.class);
+                        intent = new Intent(GoalsList.this, AddGoal.class);
                         startActivity(intent);
                         break;
                     case 1:
-                        intent = new Intent(ItemList.this, GoalsList.class);
+                        intent = new Intent(GoalsList.this, GoalsList.class);
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(ItemList.this, CompletedGoalsList.class);
+                        intent = new Intent(GoalsList.this, CompletedGoalsList.class);
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(ItemList.this, AddWeight.class);
+                        intent = new Intent(GoalsList.this, AddWeight.class);
                         startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(ItemList.this, WeightHistory.class);
+                        intent = new Intent(GoalsList.this, WeightHistory.class);
                         startActivity(intent);
                         break;
                     case 5:
-                        intent = new Intent(ItemList.this, SelectItem.class);
+                        intent = new Intent(GoalsList.this, SelectItem.class);
                         startActivity(intent);
                         break;
                     case 6:
-                        intent = new Intent(ItemList.this, ItemsHistory.class);
+                        intent = new Intent(GoalsList.this, ItemsHistory.class);
                         startActivity(intent);
                         break;
                     default:
@@ -142,7 +180,7 @@ public class ItemList extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_item_list, menu);
+        getMenuInflater().inflate(R.menu.menu_goals_list, menu);
         return true;
     }
 

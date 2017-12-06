@@ -1,4 +1,4 @@
-package com.shianne.hellohealthy;
+package com.shianne.moveshakedrop;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

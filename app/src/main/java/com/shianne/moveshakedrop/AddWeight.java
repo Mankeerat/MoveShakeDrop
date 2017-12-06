@@ -1,4 +1,4 @@
-package com.shianne.hellohealthy;
+package com.shianne.moveshakedrop;
 
 import android.content.Context;
 import android.content.Intent;

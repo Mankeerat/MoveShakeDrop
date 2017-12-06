@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:hellohealthy="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.shianne.hellohealthy.SelectItem">
+      tools:context="com.shianne.moveshakedrop.SelectItem">
     <!--<item android:id="@+id/action_search"
           android:icon="@drawable/ic_action_search"
           android:title="@string/action_search"
-          hellohealthy:showAsAction="ifRoom"/>-->
+      moveshakedroplthy:showAsAction="ifRoom"/>-->
     <item android:id="@+id/action_new"
           android:icon="@drawable/ic_action_new"
           android:title="@string/action_new"

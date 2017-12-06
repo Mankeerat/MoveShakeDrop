@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shianne.hellohealthy" >
+    package="com.shianne.moveshakedrop" >
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="26" />
 
     <application
         android:allowBackup="true"
@@ -8,7 +9,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.shianne.moveshakedrop.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,37 +18,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SelectItem"
+            android:name="com.shianne.moveshakedrop.SelectItem"
             android:label="@string/title_activity_select_item" >
         </activity>
         <activity
-            android:name=".ItemList"
+            android:name="com.shianne.moveshakedrop.ItemList"
             android:label="@string/title_activity_item_list"
-            android:parentActivityName=".ItemsHistory" >
+            android:parentActivityName="com.shianne.moveshakedrop.ItemsHistory" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shianne.hellohealthy.ItemsHistory" />
+                android:value="com.shianne.moveshakedrop.ItemsHistory" />
         </activity>
         <activity
-            android:name=".ItemsHistory"
+            android:name="com.shianne.moveshakedrop.ItemsHistory"
             android:label="@string/title_activity_items_history">
         </activity>
         <activity
-            android:name=".AddWeight"
+            android:name="com.shianne.moveshakedrop.AddWeight"
             android:label="@string/title_activity_add_weight"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".WeightHistory"
+            android:name="com.shianne.moveshakedrop.WeightHistory"
             android:label="@string/title_activity_weight_history">
         </activity>
         <activity
-            android:name=".AddGoal"
+            android:name="com.shianne.moveshakedrop.AddGoal"
             android:label="@string/title_activity_add_goal"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".GoalsList"
+            android:name="com.shianne.moveshakedrop.GoalsList"
             android:label="@string/title_activity_goals_list" >
         </activity>
         <!--<activity
@@ -55,7 +56,7 @@
             android:label="@string/title_activity_tester" >
         </activity>-->
         <activity
-            android:name=".CompletedGoalsList"
+            android:name="com.shianne.moveshakedrop.CompletedGoalsList"
             android:label="@string/title_activity_completed_goals_list">
         </activity>
     </application>

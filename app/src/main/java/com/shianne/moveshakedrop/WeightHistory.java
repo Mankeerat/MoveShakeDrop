@@ -1,4 +1,4 @@
-package com.shianne.hellohealthy;
+package com.shianne.moveshakedrop;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -12,36 +12,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-// Main page of the food intake part
-public class ItemsHistory extends ActionBarActivity {
 
+public class WeightHistory extends ActionBarActivity {
+
+    DBAdapter db = new DBAdapter(this);
+    Cursor c;
+    SimpleCursorAdapter SCAdapter;
     private ListView drawerList;
     private ArrayAdapter<String> navAdapter;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private String activityTitle;
     private Intent intent;
-    Cursor c;
-    DBAdapter db = new DBAdapter(this);
     ListView listView;
-    SimpleCursorAdapter SCAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_items_history);
+        setContentView(R.layout.activity_weight_history);
 
         try{
             db.openDatabase();
@@ -49,11 +42,11 @@ public class ItemsHistory extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        // Retrieves all the entries from the database
-        c = db.getAllEntries();
+        // Retrieve all the weight values from the database
+        c = db.getAllWeight();
 
-        // Displays all the entries
-        displayAllEntries();
+        // Display the weight values
+        displayAllWeight();
 
         db.closeDatabase();
 
@@ -69,40 +62,15 @@ public class ItemsHistory extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void displayAllEntries(){
+    // Displays all weight values using the simple cursor adapter
+    private void displayAllWeight(){
 
-
-        final Intent i = new Intent(getApplicationContext(), ItemList.class);
-        listView = (ListView) findViewById(R.id.itemHistoryListView);
-        String[] from = new String[]{db.KEY_ENTRY};
-        int[] to = new int[]{R.id.itemHistoryTextView};
-        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_items_history_single_row, c, from, to, 0);
+        listView = (ListView) findViewById(R.id.weightList);
+        String[] from = new String[]{db.KEY_WEIGHT, db.KEY_DATEWEIGHED};
+        int[] to = new int[]{R.id.weight, R.id.dateWeighed};
+        SCAdapter = new SimpleCursorAdapter(this, R.layout.activity_weight_history_single_row, c, from, to, 0);
+        // Inserts the single rows into the ListView section of Weight History
         listView.setAdapter(SCAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                View v = listView.getChildAt(position);
-                TextView tv = (TextView) v.findViewById(R.id.itemHistoryTextView);
-                final ArrayList<String> itemsArr = new ArrayList<>();
-
-                try{
-                    db.openDatabase();
-                }catch(SQLException e){
-                    e.printStackTrace();
-                }
-
-                c = db.getEntry(tv.getText().toString());
-                while (!c.isAfterLast()){
-                    itemsArr.add(c.getString(c.getColumnIndex(db.KEY_ITEM)));
-                    c.moveToNext();
-                }
-                c.close();
-                db.closeDatabase();
-
-                i.putStringArrayListExtra("selectedItems", itemsArr);
-                startActivity(i);
-            }
-        });
     }
 
     // Adds each item to the sliding menu
@@ -118,31 +86,31 @@ public class ItemsHistory extends ActionBarActivity {
                 drawerList.setItemChecked(position, true);
                 switch(position){
                     case 0:
-                        intent = new Intent(ItemsHistory.this, AddGoal.class);
+                        intent = new Intent(WeightHistory.this, AddGoal.class);
                         startActivity(intent);
                         break;
                     case 1:
-                        intent = new Intent(ItemsHistory.this, GoalsList.class);
+                        intent = new Intent(WeightHistory.this, GoalsList.class);
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(ItemsHistory.this, CompletedGoalsList.class);
+                        intent = new Intent(WeightHistory.this, CompletedGoalsList.class);
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(ItemsHistory.this, AddWeight.class);
+                        intent = new Intent(WeightHistory.this, AddWeight.class);
                         startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(ItemsHistory.this, WeightHistory.class);
+                        intent = new Intent(WeightHistory.this, WeightHistory.class);
                         startActivity(intent);
                         break;
                     case 5:
-                        intent = new Intent(ItemsHistory.this, SelectItem.class);
+                        intent = new Intent(WeightHistory.this, SelectItem.class);
                         startActivity(intent);
                         break;
                     case 6:
-                        intent = new Intent(ItemsHistory.this, ItemsHistory.class);
+                        intent = new Intent(WeightHistory.this, ItemsHistory.class);
                         startActivity(intent);
                         break;
                     default:
@@ -188,11 +156,10 @@ public class ItemsHistory extends ActionBarActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_items_history, menu);
+        getMenuInflater().inflate(R.menu.menu_weight_history, menu);
         return true;
     }
 
